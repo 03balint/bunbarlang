@@ -283,7 +283,7 @@ class Program
                 }
             }
             KezKirajzol(j, pakli, index, botok);
-        }
+        } 
     }
 
     static void BotKore(Bot bot, Pakli pakli, ref Kartya asztalLap)
