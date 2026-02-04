@@ -316,7 +316,7 @@ class Program
             {
                 BotKore(bot, pakli, ref asztalLap);
 
-                Thread.Sleep(200);
+                Thread.Sleep(150);
             }
             else
             {
@@ -350,7 +350,37 @@ class Program
         Random r = new Random();
         return szinek[r.Next(szinek.Length)];
     }
-    static
+    static Kartya.kartyaSzin JatekosSzinvalaszt()
+    {
+        Console.Clear();
+        Console.WriteLine("Válassz színt:");
+        Console.WriteLine("P - piros");
+        Console.WriteLine("K - kék");
+        Console.WriteLine("Z - zöld");
+        Console.WriteLine("S - Sárga");
+
+        while (true) 
+        {
+            ConsoleKey key =Console.ReadKey().Key;
+
+            if (key== ConsoleKey.P)
+            {
+                return Kartya.kartyaSzin.Piros;
+            }
+            if (key == ConsoleKey.K)
+            {
+                return Kartya.kartyaSzin.Kék;
+            }
+            if (key == ConsoleKey.Z)
+            {
+                return Kartya.kartyaSzin.Zöld;
+            }
+            if (key == ConsoleKey.S)
+            {
+                return Kartya.kartyaSzin.Sárga;
+            }
+        }
+    }
 
 
 
