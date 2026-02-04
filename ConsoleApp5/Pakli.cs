@@ -21,18 +21,6 @@ internal class Pakli
         Kever();
     }
 
-    public void AsztalLapBeallit()
-    {
-        do
-        {
-            asztalLap = Huz();
-        }
-        while (asztalLap.Tipus == Kartya.kartyaTipus.Plusz4 ||
-               asztalLap.Tipus == Kartya.kartyaTipus.SzinValaszt);
-    }
-
-
-
     public Kartya Huz()
     {
         if (lapok.Count == 0)

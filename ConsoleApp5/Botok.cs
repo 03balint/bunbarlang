@@ -13,13 +13,6 @@ internal class Bot : Jatekos
         Nev = nev;
     }
 
-    public void KapKezdoLapok(Pakli pakli)
-    {
-        for (int i = 0; i < 7; i++)
-        {
-            KapLap(pakli.Huz());
 
-        }
-    }
 }
 

@@ -24,7 +24,7 @@ class Program
             {
                 if (i == index)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine($"> {menu[i]}");
                     Console.ResetColor();
                 }
@@ -63,36 +63,32 @@ class Program
     {
        
         ConsoleKey key;
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("""
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│           ___  _             _       _   _           │
-│          / _ \(_)           | |     | | | |          │
-│         / /_\ \_  __ _ _ __ | | ___ | |_| |_         │
-│         |  _  | |/ _` | '_ \| |/ _ \| __| __|        │
-│         | | | | | (_| | | | | | (_) | |_| |_         │
-│         \_| |_/ |\__,_|_| |_|_|\___/ \__|\__|        │
-│              _/ |                                    │
-│             |__/                                     │
-│          _   __                     _                │
-│         | | / /                    | |               │
-│         | |/ /  ___  _ __  _______ | |______         │
-│         |    \ / _ \| '_ \|_  / _ \| |______|        │
-│         | |\  \ (_) | | | |/ / (_) | |               │
-│         \_| \_/\___/|_| |_/___\___/|_|               │
-│                                  _                   │
-│                                 | |                  │
-│          _ __ ___   ___ _ __ ___| |_                 │
-│         | '_ ` _ \ / _ \ '__/ _ \ __|                │
-│         | | | | | |  __/ | |  __/ |_                 │
-│         |_| |_| |_|\___|_|  \___|\__|                │
-│                                                      │
-│                                                      │
-│         Nyomj 'Enter'-t a folytatáshoz!              │
-│                                                      │
-│                                                      │
-└──────────────────────────────────────────────────────┘
+          _____                    _____                   _______         
+         /\    \                  /\    \                 /::\    \        
+        /::\____\                /::\____\               /::::\    \       
+       /:::/    /               /::::|   |              /::::::\    \      
+      /:::/    /               /:::::|   |             /::::::::\    \     
+     /:::/    /               /::::::|   |            /:::/~~\:::\    \    
+    /:::/    /               /:::/|::|   |           /:::/    \:::\    \   
+   /:::/    /               /:::/ |::|   |          /:::/    / \:::\    \  
+  /:::/    /      _____    /:::/  |::|   | _____   /:::/____/   \:::\____\ 
+ /:::/____/      /\    \  /:::/   |::|   |/\    \ |:::|    |     |:::|    |
+|:::|    /      /::\____\/:: /    |::|   /::\____\|:::|____|     |:::|    |
+|:::|____\     /:::/    /\::/    /|::|  /:::/    / \:::\    \   /:::/    / 
+ \:::\    \   /:::/    /  \/____/ |::| /:::/    /   \:::\    \ /:::/    /  
+  \:::\    \ /:::/    /           |::|/:::/    /     \:::\    /:::/    /   
+   \:::\    /:::/    /            |::::::/    /       \:::\__/:::/    /    
+    \:::\__/:::/    /             |:::::/    /         \::::::::/    /     
+     \::::::::/    /              |::::/    /           \::::::/    /      
+      \::::::/    /               /:::/    /             \::::/    /       
+       \::::/    /               /:::/    /               \::/____/        
+        \::/____/                \::/    /                 ~~              
+         ~~                       \/____/                                  
+                          
+
+                        Nyomj 'Enter'-t a folytatáshoz                                          
 
 """);
 
@@ -106,33 +102,7 @@ class Program
         Console.ResetColor();
         Console.Clear();
         UNOkezd();
-        //                Console.WriteLine("""
-                //                      ┌─────────────┐                  
-                //                      │    BOT 3    │                  
-                //                      │   (x  lap)  │                  
-                //                      └─────────────┘                  
-                //      ┌─────────────┐                 ┌─────────────┐  
-                //      │    BOT 2    │                 │    BOT 4    │  
-                //      │   (x  lap)  │    ┌───────┐    │   (x  lap)  │  
-                //      └─────────────┘    │ PIROS │    └─────────────┘  
-                //                         │       │                     
-                //           ┌─────┐       │   7   │                     
-                //           │ U   │       └───────┘                     
-                //           │  N  │                                     
-                //           │   O │                                     
-                //           └─────┘                                     
-                //  ════════════════════════════════════════════════════
-                //   ┌─────┐┌─────┐┌─────┐┌─────┐┌─────┐┌─────┐┌─────┐   
-                //   │  P  ││  K  ││  Z  ││  S  ││  P  ││  +  ││  K  │   
-                //   │  1  ││  2  ││  3  ││  4  ││ +2  ││  4  ││  X  │   
-                //   └─────┘└─────┘└─────┘└─────┘└─────┘└─────┘└─────┘   
-                //   ┌─────┐┌─────┐┌─────┐┌─────┐┌─────┐┌─────┐┌─────┐   
-                //   │ ▓▒▓ ││  K  ││  Z  ││  S  ││  P  ││  +  ││  K  │   
-                //   │ ▒▓▒ ││  2  ││  3  ││  4  ││ +2  ││  4  ││  X  │   
-                //   └─────┘└─────┘└─────┘└─────┘└─────┘└─────┘└─────┘    
 
-
-                //""");
 
     }
     static void UNOkezd()
@@ -166,9 +136,10 @@ class Program
         }
         while (asztallap.Tipus == Kartya.kartyaTipus.Plusz4 ||
                asztallap.Tipus == Kartya.kartyaTipus.SzinValaszt);
+        
+        Kartya.kartyaSzin aktivSzin = asztallap.Szin;
 
-
-        JatekFut(jatekosok, pakli, ref asztallap);
+        JatekFut(jatekosok, pakli, ref asztallap, ref aktivSzin);
     }
 
 
@@ -213,7 +184,10 @@ class Program
         Console.WriteLine("\n\nEnter: lerak | Space: húz");
     }
 
-    static bool Lerakhato(Kartya kezLap, Kartya asztalLap)
+    static bool Lerakhato(
+        Kartya kezLap,
+        Kartya asztalLap,
+        Kartya.kartyaSzin aktivSzin)
     {
 
         if (kezLap.Szin == Kartya.kartyaSzin.Spec)
@@ -223,22 +197,21 @@ class Program
         if (kezLap.Szin == asztalLap.Szin)
             return true;
 
-
-        if (kezLap.Tipus == Kartya.kartyaTipus.Szam &&
-            asztalLap.Tipus == Kartya.kartyaTipus.Szam &&
-            kezLap.Szam == asztalLap.Szam)
-            return true;
-
-
         if (kezLap.Tipus == asztalLap.Tipus &&
             kezLap.Tipus != Kartya.kartyaTipus.Szam)
+            return true;
+
+        if (kezLap.Tipus == Kartya.kartyaTipus.Szam &&
+            kezLap.Szam == asztalLap.Szam)
             return true;
 
         return false;
     }
 
 
-    static void JatekosKore(Jatekos j, Pakli pakli, ref Kartya asztallap, List<Jatekos> botok)
+
+
+    static void JatekosKore(Jatekos j, Pakli pakli, ref Kartya asztallap, List<Jatekos> botok, ref Kartya.kartyaSzin aktivSzin)
     {
         int index = 0;
         ConsoleKey key;
@@ -246,7 +219,7 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine($"Asztalon: {asztallap}");
+            Console.WriteLine(asztallap.Tipus==Kartya.kartyaTipus.SzinValaszt? $"Asztalon: Színváltó ({aktivSzin})": $"Asztalon: {asztallap}" );
             KezKirajzol(j, pakli, index, botok);
 
             key = Console.ReadKey(true).Key;
@@ -268,8 +241,17 @@ class Program
             {
                 Kartya valasztott = j.Kez[index];
 
-                if (Lerakhato(valasztott, asztallap))
+                if (Lerakhato(valasztott, asztallap, aktivSzin) )
                 {
+                    if (valasztott.Tipus==Kartya.kartyaTipus.Plusz4 || valasztott.Tipus == Kartya.kartyaTipus.SzinValaszt)
+                    {
+                        aktivSzin = JatekosSzinvalaszt();
+                    }
+                    else
+                    {
+                        aktivSzin = valasztott.Szin;
+                    }
+
                     asztallap = valasztott;
                     j.KezEltavolit(index);
                     break;
@@ -286,25 +268,40 @@ class Program
         } 
     }
 
-    static void BotKore(Bot bot, Pakli pakli, ref Kartya asztalLap)
+    static void BotKore(
+        Bot bot,
+        Pakli pakli,
+        ref Kartya asztalLap,
+        ref Kartya.kartyaSzin aktivSzin)
     {
         for (int i = 0; i < bot.Kez.Count; i++)
         {
             Kartya k = bot.Kez[i];
 
-            if (Lerakhato(k, asztalLap))
+            if (Lerakhato(k, asztalLap, aktivSzin))
             {
-                asztalLap = k;
+                
+
+                if (k.Tipus == Kartya.kartyaTipus.Plusz4 ||
+                    k.Tipus == Kartya.kartyaTipus.SzinValaszt)
+                {
+                    aktivSzin = RandomSzin(); 
+                }
+                else
+                {
+                    aktivSzin = k.Szin;
+                }
+
                 bot.KezEltavolit(i);
-                return; 
+                return;
             }
         }
-
 
         bot.KapLap(pakli.Huz());
     }
 
-    static void JatekFut(List<Jatekos> jatekosok, Pakli pakli, ref Kartya asztalLap)
+
+    static void JatekFut(List<Jatekos> jatekosok, Pakli pakli, ref Kartya asztalLap, ref Kartya.kartyaSzin aktivSzin)
     {
         int aktualis = 0;
 
@@ -314,14 +311,14 @@ class Program
 
             if (soron is Bot bot)
             {
-                BotKore(bot, pakli, ref asztalLap);
+                BotKore(bot, pakli, ref asztalLap, ref aktivSzin);
 
                 Thread.Sleep(150);
             }
             else
             {
                 List<Jatekos> botok = jatekosok.Where(x => x is Bot).ToList();
-                JatekosKore(soron, pakli, ref asztalLap, botok);
+                JatekosKore(soron, pakli, ref asztalLap, botok, ref aktivSzin);
             }
 
             if (soron.LapokSzama == 0)
@@ -381,6 +378,30 @@ class Program
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

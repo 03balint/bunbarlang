@@ -25,16 +25,8 @@ internal class Kartya
     public kartyaTipus Tipus => tipus;
     public int? Szam => szam;
 
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Kartya k) return false;
-        return szin == k.szin && tipus == k.tipus && szam == k.szam;
-    }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(szin, tipus, szam);
-    }
+
 
     public override string ToString()
     {
