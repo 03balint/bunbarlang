@@ -38,6 +38,11 @@ internal class Kartya
 
     public override string ToString()
     {
+        if (Tipus==kartyaTipus.SzinValaszt || Tipus == kartyaTipus.Plusz4)
+        {
+            return $"{tipus} ({szin})";
+        }
+
         if (tipus == kartyaTipus.Szam && szam.HasValue)
             {return $"{szin} {szam}"; }
 

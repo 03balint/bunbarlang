@@ -338,8 +338,19 @@ class Program
             aktualis = (aktualis + 1) % jatekosok.Count;
         }
     }
-
-
+    static Kartya.kartyaSzin RandomSzin()
+    {
+        Kartya.kartyaSzin[] szinek =
+        {
+        Kartya.kartyaSzin.Piros,
+        Kartya.kartyaSzin.Kék,
+        Kartya.kartyaSzin.Zöld,
+        Kartya.kartyaSzin.Sárga };
+    
+        Random r = new Random();
+        return szinek[r.Next(szinek.Length)];
+    }
+    static
 
 
 
