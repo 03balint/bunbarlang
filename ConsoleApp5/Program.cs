@@ -219,7 +219,7 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine(asztallap.Tipus==Kartya.kartyaTipus.SzinValaszt? $"Asztalon: Színváltó ({aktivSzin})": $"Asztalon: {asztallap}" );
+            Console.WriteLine(asztallap.Tipus==Kartya.kartyaTipus.SzinValaszt || asztallap.Tipus == Kartya.kartyaTipus.Plusz4 ? $"Asztalon: Színváltó ({aktivSzin})": $"Asztalon: {asztallap}" );
             KezKirajzol(j, pakli, index, botok);
 
             key = Console.ReadKey(true).Key;
@@ -291,7 +291,7 @@ class Program
                 {
                     aktivSzin = k.Szin;
                 }
-
+                asztalLap = k;
                 bot.KezEltavolit(i);
                 return;
             }
@@ -362,6 +362,7 @@ class Program
 
             if (key== ConsoleKey.P)
             {
+
                 return Kartya.kartyaSzin.Piros;
             }
             if (key == ConsoleKey.K)
@@ -378,6 +379,7 @@ class Program
             }
         }
     }
+
 
 
 
@@ -493,13 +495,6 @@ class Program
             Menu();
     }
 }
-
-
-
-
-
-
-
 
 
 

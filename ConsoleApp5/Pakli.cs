@@ -14,6 +14,7 @@ internal class Pakli
 
     public Pakli(Jatekos jatekos, List<Jatekos> botok)
     {
+
         this.jatekos = jatekos;
         this.botok = botok;
         lapok = new List<Kartya>();
@@ -63,9 +64,9 @@ internal class Pakli
 
         foreach (var szin in szinek)
         {
-            lapok.Add(new Kartya(szin, Kartya.kartyaTipus.Szam, 0));
+            
 
-            for (int i = 1; i <= 9; i++)
+            for (int i = 0; i <= 9; i++)
             {
                 lapok.Add(new Kartya(szin, Kartya.kartyaTipus.Szam, i));
                 lapok.Add(new Kartya(szin, Kartya.kartyaTipus.Szam, i));
