@@ -233,7 +233,7 @@ class Program
 
 
 
-    static void JatekosKore(Jatekos j, Pakli pakli, ref Kartya asztallap, List<Jatekos> botok, ref Kartya.kartyaSzin aktivSzin, Kartya.kartyaSzin? ervenyesSzin)
+    static void JatekosKore(Jatekos j, Pakli pakli, ref Kartya asztallap, List<Jatekos> botok, ref Kartya.kartyaSzin aktivSzin, ref Kartya.kartyaSzin? ervenyesSzin)
     {
         int index = 0;
         ConsoleKey key;
@@ -324,94 +324,109 @@ class Program
     }
 
 
-    static void JatekFut(List<Jatekos> jatekosok,Pakli pakli,ref Kartya asztalLap,ref Kartya.kartyaSzin aktivSzin)
+    static void JatekFut(
+    List<Jatekos> jatekosok, Pakli pakli, ref Kartya asztalLap, ref Kartya.kartyaSzin aktivSzin)
     {
-        int huzasBuntetes = 0;
-        int irany = 1;
-        bool skipKovetkezo = false;
         int aktualis = 0;
+        int irany = 1;
+
+        int huzasBuntetes = 0;
+        bool skipKovetkezo = false;
+
         Kartya.kartyaSzin? ervenyesSzin = null;
+
+        Kartya elozoLap = null; 
+
         while (true)
         {
+            Jatekos soron = jatekosok[aktualis];
+
             if (huzasBuntetes > 0)
             {
-                Jatekos buntetett = jatekosok[aktualis];
-
                 for (int i = 0; i < huzasBuntetes; i++)
-                {
-                    buntetett.KapLap(pakli.Huz());
-                }
+                    soron.KapLap(pakli.Huz());
+
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine(buntetett is Bot b
-                ? $"{b.Nev} húz {huzasBuntetes} lapot!"
-                : $"Húzol {huzasBuntetes} lapot!");
-                
-                Thread.Sleep(1000);
+                Console.WriteLine(
+                    soron is Bot b
+                    ? $"{b.Nev} húz {huzasBuntetes} lapot!"
+                    : $"Húzol {huzasBuntetes} lapot!"
+                );
                 Console.ResetColor();
 
+                Thread.Sleep(600);
+
                 huzasBuntetes = 0;
+
                 aktualis = (aktualis + irany + jatekosok.Count) % jatekosok.Count;
+                continue;
             }
 
             if (skipKovetkezo)
             {
-                aktualis = (aktualis +irany+ jatekosok.Count) % jatekosok.Count;
-                skipKovetkezo=false;
+                skipKovetkezo = false;
+                aktualis = (aktualis + irany + jatekosok.Count) % jatekosok.Count;
+                continue;
             }
 
-            Jatekos soron = jatekosok[aktualis];
+            elozoLap = asztalLap;
 
             if (soron is Bot bot)
             {
                 BotKore(bot, pakli, ref asztalLap, ref ervenyesSzin);
-
-                Thread.Sleep(150);
+                Thread.Sleep(200);
             }
             else
             {
                 List<Jatekos> botok = jatekosok.Where(x => x is Bot).ToList();
-                JatekosKore(soron, pakli, ref asztalLap, botok, ref aktivSzin, ervenyesSzin);
 
-
+                JatekosKore(
+                    soron,
+                    pakli,
+                    ref asztalLap,
+                    botok,
+                    ref aktivSzin,
+                    ref ervenyesSzin
+                );
             }
+
+            if (asztalLap == elozoLap)
+            {
+                aktualis = (aktualis + irany + jatekosok.Count) % jatekosok.Count;
+                continue;
+            }
+
             if (soron.LapokSzama == 0)
             {
-                Console.WriteLine();
-                Console.WriteLine(
-                    soron is Bot b ? $"{b.Nev} nyert!" : "NYERTÉL!"
-                );
-                Console.ReadKey();
+                Thread.Sleep(800);
+                JatekVege(soron, jatekosok, pakli, asztalLap);
                 break;
             }
 
-            if (asztalLap.Tipus == Kartya.kartyaTipus.Fordit)
+            switch (asztalLap.Tipus)
             {
-                irany *= -1;
+                case Kartya.kartyaTipus.Fordit:
+                    irany *= -1;
+                    break;
+
+                case Kartya.kartyaTipus.Kimarad:
+                    skipKovetkezo = true;
+                    break;
+
+                case Kartya.kartyaTipus.Plusz2:
+                    huzasBuntetes = 2;
+                    break;
+
+                case Kartya.kartyaTipus.Plusz4:
+                    huzasBuntetes = 4;
+                    break;
             }
-
-            if (asztalLap.Tipus == Kartya.kartyaTipus.Plusz2)
-            {
-                huzasBuntetes = 2;
-            }
-
-            if (asztalLap.Tipus == Kartya.kartyaTipus.Kimarad)
-            {
-                skipKovetkezo=true;
-            }
-
-            if (asztalLap.Tipus == Kartya.kartyaTipus.Plusz4)
-            {
-                huzasBuntetes = 4;
-            }
-
-
-
-
-
 
             aktualis = (aktualis + irany + jatekosok.Count) % jatekosok.Count;
         }
     }
+
+
     static Kartya.kartyaSzin RandomSzin()
     {
         Kartya.kartyaSzin[] szinek =
@@ -456,6 +471,100 @@ class Program
             }
         }
     }
+
+    static void JatekVege(
+        Jatekos gyoztes,
+        List<Jatekos> jatekosok,
+        Pakli pakli,
+        Kartya asztalLap)
+    {
+        Console.Clear();
+
+        Console.WriteLine($"Asztalon: {asztalLap}");
+        Console.WriteLine($"\nPakli: {pakli.Darab}\n");
+
+        foreach (var j in jatekosok)
+        {
+            if (j is Bot b)
+                Console.WriteLine($"{b.Nev} lapjai: {b.LapokSzama}");
+            else
+                Console.WriteLine($"Saját lapjaid: {j.LapokSzama}");
+        }
+
+        Console.WriteLine();
+
+        if (gyoztes is not Bot)
+        {
+            Console.WriteLine("bot2");
+            Konfetti("Te nyertél!");
+        }
+        else if ((gyoztes as Bot).Nev == "BOT 1")
+        {
+            Console.WriteLine("bot2");
+            Konfetti("BOT 1 Nyert!");
+        }
+        else if ((gyoztes as Bot).Nev == "BOT 2")
+        {
+            Console.WriteLine("bot2");
+            Konfetti("BOT 2 Nyert!");
+        }
+        else if ((gyoztes as Bot).Nev == "BOT 3")
+        {
+            Console.WriteLine("bot2");
+            Konfetti("BOT 3 Nyert!");
+        }
+
+        Console.ReadKey();
+    }
+
+    static void Konfetti(string uzenet, int idoMs = 10000)
+    {
+        Random rnd = new Random();
+        DateTime vege = DateTime.Now.AddMilliseconds(idoMs);
+
+        Console.Clear();
+        Console.CursorVisible = false;
+
+        int centerX = Console.WindowWidth / 2 - uzenet.Length / 2;
+        int centerY = Console.WindowHeight / 2;
+
+        int tiltottFelso = centerY - 1;                 // ⬅️ TILTOTT ZÓNA
+        int tiltottAlso = centerY + 1;
+        int tiltottBal = centerX - 1;
+        int tiltottJobb = centerX + uzenet.Length + 1;
+
+        while (DateTime.Now < vege)
+        {
+            int x = rnd.Next(Console.WindowWidth);
+            int y = rnd.Next(Console.WindowHeight);
+
+            // ❌ NE RAJZOLJUNK A FELIRATRA
+            if (y >= tiltottFelso && y <= tiltottAlso &&
+                x >= tiltottBal && x <= tiltottJobb)
+            {
+                continue;
+            }
+
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = (ConsoleColor)rnd.Next(1, 15);
+
+            char karakter = "*+.#@$%&?!~"[rnd.Next(10)];
+            Console.Write(karakter);
+
+            // 🔁 FELIRAT ÚJRA KÖZÉPRE
+            Console.SetCursorPosition(centerX, centerY);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(uzenet);
+
+            Thread.Sleep(5);
+        }
+
+        Console.ResetColor();
+        Console.CursorVisible = true;
+    }
+
+
+
 
 
 
