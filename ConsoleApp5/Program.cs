@@ -314,10 +314,39 @@ class Program
 
     static void JatekFut(List<Jatekos> jatekosok,Pakli pakli,ref Kartya asztalLap,ref Kartya.kartyaSzin aktivSzin)
     {
+        int huzasBuntetes = 0;
+        int irany = 1;
+        bool skipKovetkezo = false;
         int aktualis = 0;
         Kartya.kartyaSzin? ervenyesSzin = null;
         while (true)
         {
+            if (huzasBuntetes > 0)
+            {
+                Jatekos buntetett = jatekosok[aktualis];
+
+                for (int i = 0; i < huzasBuntetes; i++)
+                {
+                    buntetett.KapLap(pakli.Huz());
+                }
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(buntetett is Bot b
+                ? $"{b.Nev} húz {huzasBuntetes} lapot!"
+                : $"Húzol {huzasBuntetes} lapot!");
+                
+                Thread.Sleep(1000);
+                Console.ResetColor();
+
+                huzasBuntetes = 0;
+                aktualis = (aktualis + irany + jatekosok.Count) % jatekosok.Count;
+            }
+
+            if (skipKovetkezo)
+            {
+                aktualis = (aktualis +irany+ jatekosok.Count) % jatekosok.Count;
+                skipKovetkezo=false;
+            }
+
             Jatekos soron = jatekosok[aktualis];
 
             if (soron is Bot bot)
@@ -333,7 +362,6 @@ class Program
 
 
             }
-
             if (soron.LapokSzama == 0)
             {
                 Console.WriteLine();
@@ -344,8 +372,32 @@ class Program
                 break;
             }
 
-             
-            aktualis = (aktualis + 1) % jatekosok.Count;
+            if (asztalLap.Tipus == Kartya.kartyaTipus.Fordit)
+            {
+                irany *= -1;
+            }
+
+            if (asztalLap.Tipus == Kartya.kartyaTipus.Plusz2)
+            {
+                huzasBuntetes = 2;
+            }
+
+            if (asztalLap.Tipus == Kartya.kartyaTipus.Kimarad)
+            {
+                skipKovetkezo=true;
+            }
+
+            if (asztalLap.Tipus == Kartya.kartyaTipus.Plusz4)
+            {
+                huzasBuntetes = 4;
+            }
+
+
+
+
+
+
+            aktualis = (aktualis + irany + jatekosok.Count) % jatekosok.Count;
         }
     }
     static Kartya.kartyaSzin RandomSzin()
