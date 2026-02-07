@@ -191,13 +191,22 @@ class Program
         Kartya asztal,
         Kartya.kartyaSzin? ervenyesSzin)
     {
-
         if (uj.Tipus == Kartya.kartyaTipus.SzinValaszt ||
             uj.Tipus == Kartya.kartyaTipus.Plusz4)
             return true;
 
         if (ervenyesSzin != null)
-            return uj.Szin == ervenyesSzin;
+        {
+            if (uj.Szin == ervenyesSzin)
+                return true;
+
+            if (uj.Tipus == Kartya.kartyaTipus.Szam &&
+                asztal.Tipus == Kartya.kartyaTipus.Szam &&
+                uj.Szam == asztal.Szam)
+                return true;
+
+            return false;
+        }
 
 
         if (uj.Szin == asztal.Szin)
@@ -214,6 +223,9 @@ class Program
 
         return false;
     }
+
+
+
 
 
 
