@@ -24,7 +24,7 @@ internal class Pakli
 
     public Kartya Huz()
     {
-        if (lapok.Count == 0)
+        if (lapok.Count == 1)
         {
             lapok.Clear();
             Feltolt();

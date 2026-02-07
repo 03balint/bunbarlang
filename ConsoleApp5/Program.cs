@@ -24,7 +24,7 @@ class Program
             {
                 if (i == index)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine($"> {menu[i]}");
                     Console.ResetColor();
                 }
@@ -63,7 +63,7 @@ class Program
     {
        
         ConsoleKey key;
-        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("""
           _____                    _____                   _______         
          /\    \                  /\    \                 /::\    \        
@@ -139,6 +139,8 @@ class Program
         
         Kartya.kartyaSzin aktivSzin = asztallap.Szin;
 
+        Kartya.kartyaSzin? ervenyesSzin = null;
+
         JatekFut(jatekosok, pakli, ref asztallap, ref aktivSzin);
     }
 
@@ -185,24 +187,29 @@ class Program
     }
 
     static bool Lerakhato(
-        Kartya kezLap,
-        Kartya asztalLap,
-        Kartya.kartyaSzin aktivSzin)
+        Kartya uj,
+        Kartya asztal,
+        Kartya.kartyaSzin? ervenyesSzin)
     {
 
-        if (kezLap.Szin == Kartya.kartyaSzin.Spec)
+        if (uj.Tipus == Kartya.kartyaTipus.SzinValaszt ||
+            uj.Tipus == Kartya.kartyaTipus.Plusz4)
             return true;
 
+        if (ervenyesSzin != null)
+            return uj.Szin == ervenyesSzin;
 
-        if (kezLap.Szin == asztalLap.Szin)
+
+        if (uj.Szin == asztal.Szin)
             return true;
 
-        if (kezLap.Tipus == asztalLap.Tipus &&
-            kezLap.Tipus != Kartya.kartyaTipus.Szam)
+        if (uj.Tipus == asztal.Tipus &&
+            uj.Tipus != Kartya.kartyaTipus.Szam)
             return true;
 
-        if (kezLap.Tipus == Kartya.kartyaTipus.Szam &&
-            kezLap.Szam == asztalLap.Szam)
+        if (uj.Tipus == Kartya.kartyaTipus.Szam &&
+            asztal.Tipus == Kartya.kartyaTipus.Szam &&
+            uj.Szam == asztal.Szam)
             return true;
 
         return false;
@@ -211,7 +218,10 @@ class Program
 
 
 
-    static void JatekosKore(Jatekos j, Pakli pakli, ref Kartya asztallap, List<Jatekos> botok, ref Kartya.kartyaSzin aktivSzin)
+
+
+
+    static void JatekosKore(Jatekos j, Pakli pakli, ref Kartya asztallap, List<Jatekos> botok, ref Kartya.kartyaSzin aktivSzin, Kartya.kartyaSzin? ervenyesSzin)
     {
         int index = 0;
         ConsoleKey key;
@@ -241,14 +251,15 @@ class Program
             {
                 Kartya valasztott = j.Kez[index];
 
-                if (Lerakhato(valasztott, asztallap, aktivSzin) )
+                if (Lerakhato(valasztott, asztallap, ervenyesSzin) )
                 {
                     if (valasztott.Tipus==Kartya.kartyaTipus.Plusz4 || valasztott.Tipus == Kartya.kartyaTipus.SzinValaszt)
                     {
-                        aktivSzin = JatekosSzinvalaszt();
+                        ervenyesSzin = JatekosSzinvalaszt();
                     }
                     else
                     {
+                        ervenyesSzin = null;
                         aktivSzin = valasztott.Szin;
                     }
 
@@ -272,24 +283,24 @@ class Program
         Bot bot,
         Pakli pakli,
         ref Kartya asztalLap,
-        ref Kartya.kartyaSzin aktivSzin)
+        ref Kartya.kartyaSzin? ervenyesSzin)
     {
         for (int i = 0; i < bot.Kez.Count; i++)
         {
             Kartya k = bot.Kez[i];
 
-            if (Lerakhato(k, asztalLap, aktivSzin))
+            if (Lerakhato(k, asztalLap, ervenyesSzin))
             {
                 
 
                 if (k.Tipus == Kartya.kartyaTipus.Plusz4 ||
                     k.Tipus == Kartya.kartyaTipus.SzinValaszt)
                 {
-                    aktivSzin = RandomSzin(); 
+                    ervenyesSzin = RandomSzin(); 
                 }
                 else
                 {
-                    aktivSzin = k.Szin;
+                    ervenyesSzin = k.Szin;
                 }
                 asztalLap = k;
                 bot.KezEltavolit(i);
@@ -301,24 +312,26 @@ class Program
     }
 
 
-    static void JatekFut(List<Jatekos> jatekosok, Pakli pakli, ref Kartya asztalLap, ref Kartya.kartyaSzin aktivSzin)
+    static void JatekFut(List<Jatekos> jatekosok,Pakli pakli,ref Kartya asztalLap,ref Kartya.kartyaSzin aktivSzin)
     {
         int aktualis = 0;
-
+        Kartya.kartyaSzin? ervenyesSzin = null;
         while (true)
         {
             Jatekos soron = jatekosok[aktualis];
 
             if (soron is Bot bot)
             {
-                BotKore(bot, pakli, ref asztalLap, ref aktivSzin);
+                BotKore(bot, pakli, ref asztalLap, ref ervenyesSzin);
 
                 Thread.Sleep(150);
             }
             else
             {
                 List<Jatekos> botok = jatekosok.Where(x => x is Bot).ToList();
-                JatekosKore(soron, pakli, ref asztalLap, botok, ref aktivSzin);
+                JatekosKore(soron, pakli, ref asztalLap, botok, ref aktivSzin, ervenyesSzin);
+
+
             }
 
             if (soron.LapokSzama == 0)
